@@ -1,0 +1,44 @@
+# version: '3'
+networks:
+  ha-net:
+
+services:
+  homeassistant:
+    container_name: homeassistant
+    image: "ghcr.io/home-assistant/home-assistant:stable"
+    volumes:
+      - /home/mmtrent:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    ports:
+      - 8123:8123
+    network_mode: host
+    devices:
+      - /dev/serial/by-id/usb-Itead_Sonoff_Zigbee_3.0_USB_Dongle_Plus_V2_044f22b77ec2ef118f89c9138148b910-if00-port0:/dev/ttyUSB0
+  mosquitto:
+    container_name: mosquitto
+    image: eclipse-mosquitto:latest
+    restart: unless-stopped
+    ports:
+      - 1883:1883
+      - 9001:9001  # WebSockets, optional
+    volumes:
+      - ./mosquitto/config:/mosquitto/config
+      - ./mosquitto/data:/mosquitto/data
+      - ./mosquitto/log:/mosquitto/log
+    networks:
+      - ha-net
+  
+  zigbee2mqtt:
+    container_name: zigbee2mqtt
+    image: koenkk/zigbee2mqtt:latest
+    restart: unless-stopped
+    network_mode: host
+    volumes:
+      - /opt/zigbee2mqtt/data:/app/data
+      - /etc/localtime:/etc/localtime:ro
+    devices:
+      - /dev/ttyUSB0
+    environment:
+      - TZ=America/Los_Angeles
