@@ -1,0 +1,17 @@
+[ req ]
+default_bits       = 2048
+prompt              = no
+distinguished_name  = dn
+req_extensions      = req_ext
+
+[ dn ]
+CN = sonarr.home.arpa
+
+[ req_ext ]
+subjectAltName = @alt_names
+
+[ alt_names ]
+DNS.1 = sonarr.home.arpa
+DNS.2 = sonarr
+DNS.3 = sonarr.local
+IP.1  = 192.168.88.252

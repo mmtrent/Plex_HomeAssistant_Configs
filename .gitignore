@@ -1,0 +1,9 @@
+homeassistant/.storage/auth
+# --- Homelab CA / TLS secrets ---
+*.key
+*.csr
+*.pass
+*.srl
+index.txt*
+serial*
+homelab-ca/private/
