@@ -1,0 +1,10 @@
+[Unit]
+Description=Daily Jeopardy cleanup
+
+[Timer]
+OnCalendar=*-*-* 04:17:00
+Persistent=true
+RandomizedDelaySec=5min
+
+[Install]
+WantedBy=timers.target

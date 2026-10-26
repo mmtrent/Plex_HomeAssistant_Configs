@@ -1,0 +1,11 @@
+[Unit]
+Description=Remove Jeopardy episodes older than 30 days from Sonarr and Transmission
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/src/jeopardyCleanup
+ExecStart=/usr/bin/python %h/src/jeopardyCleanup/jeopardy_cleanup.py
+Environment=PYTHONUNBUFFERED=1
+TimeoutStartSec=15min
